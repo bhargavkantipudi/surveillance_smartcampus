@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+        <div class="Datatable">
+            <table align="center" width=100%>
+                <caption class="Heading">Survelliance Table</caption>
+                <tr>
+                    <th>CamNo.</th><th>CamName</th><th>Latitude</th><th>Longitude</th><th>Src</th>
+                </tr>
+                {% for i in data %}
+
+                    <tr><td>{{i.CameraID}}</td><td>{{i.Camera_Name}}</td><td>{{i.Latitude}}</td><td>{{i.Longitude}}</td><td><a href={{i.Src}}>play</a>
+                    </td> </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <button onclick="bclick()"></button>
+    
+    
+    
+    
+    
+    
+    <script type="text/javascript">
+        var data = JSON.parse("{{dataJson|escapejs}}"); 
+        console.log(data)
+       
+    </script>
+</body>
+</html>
