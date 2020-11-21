@@ -10,5 +10,7 @@ router.register(r'mapData', views.MapDataViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("home",views.home,name='app-home')
+    path("home",views.home,name='app-home'),
+    path("map",views.map,name='app-home')
+
 ]
