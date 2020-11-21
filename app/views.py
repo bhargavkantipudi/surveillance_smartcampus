@@ -32,6 +32,18 @@ def map(request):
     dataJSON = dumps(l)
     return render(request, 'app/map.html',{"data":alldetails,"dataJson":dataJSON})
 
+def index(request):
+    alldetails=MapData.objects.all()
+    serializer = MapDataSeriallizer(alldetails, many=True)
+    #print(serializer.data) 
+    #dataJSON = dumps(alldetails)
+    l=[] 
+    for x in serializer.data:
+        tmp=dict(x)
+        l.append(tmp)
+    dataJSON = dumps(l)
+    return render(request, 'app/index.html',{"data":alldetails,"dataJson":dataJSON})
+
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
  

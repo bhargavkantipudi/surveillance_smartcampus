@@ -11,6 +11,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("home",views.home,name='app-home'),
-    path("map",views.map,name='app-home')
-
+    path("map",views.map,name='app-home'),
+    path("index",views.index,name='app-home')
 ]
