@@ -4,13 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survelliance</title>
-    
-</head>
-<body>
+<style>
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    height: 60%;
+}
 
+.float-child {
+    margin: auto;
+    width: 50%;
+    float: left;
+    padding: 20px;
+    border: 2px solid red;
+}
+table, th, td {
+  border: 1px solid black;
+}  
+</style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+<body class="float-container">
+  <!--
+  <div class="split left">
+    <div class="centered">
     <div id="map"></div>
+    </div>
+  </div>
+  <div class="split right">
+    <div class="centered">
+      <iframe id="PlayVideo" width="727" height="409" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </div>
+  </div>
+-->
+    <div id="map" class="float-child"></div>
+    <iframe id="PlayVideo" width="50%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
     <div class="Datatable">
-        <table align="center" width=100%>
+        <table align="center" width=100% class="w3-table-all w3-hoverable">
             <caption class="Heading">Survelliance Table</caption>
             <tr>
                 <th>CamNo.</th><th>CamName</th><th>Latitude</th><th>Longitude</th><th>Src</th>
@@ -22,12 +55,8 @@
             {% endfor %}
         </table>
     </div>
-    <iframe id="PlayVideo" width="727" height="409" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></body>
+  </body>
 </html>
-
-
-
-
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script 
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEpxxWJbin5SqgUtX6-cFrlB0ppvJzido&callback=initMap"
@@ -52,7 +81,7 @@
         
       let map;
       var data = JSON.parse("{{dataJson|escapejs}}"); 
-
+      
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 17,
@@ -85,22 +114,25 @@
             label:feature.content,
             map: map
           });
-		  // since not every feature has content, only add infoWindow when content exist
+      // since not every feature has content, only add infoWindow when content exist
+      
 		  if(feature.content){
+        
 			  var marker_infoWindow = new google.maps.InfoWindow({
 				content: feature.content
 			  });
 
 			  marker.addListener('click', function() {
+          if (marker_infoWindow) {
+            marker_infoWindow.close();
+          }
 				marker_infoWindow.open(map, marker);
         for (let index = 0; index < data.length; index++) {
               const element = data[index];
-              if (markerdata.label==data[index].Camera_Name) {
-                  console.log(data[index].Src);
-              document.getElementById('PlayVideo').src=data[index].Src;
-              }
-              
-          }
+                  if(marker.label==data[index].Camera_Name){
+                    console.log(data[index].Src);
+                  document.getElementById('PlayVideo').src=data[index].Src;}
+            }
 			  });
 		  }
           markers.push(marker)
@@ -151,24 +183,24 @@
           // Close the current InfoWindow.
           // Create a new InfoWindow.
           if (infoWindow) {
-        infoWindow.close();
-    }
+            infoWindow.close();
+          }
           latlog=mapsMouseEvent.latLng.toJSON()
-          markerdata=find_closest_marker(latlog.lat,latlog.lng)
-          console.log(markerdata.label);
+          markerData=find_closest_marker(latlog.lat,latlog.lng)
+          console.log(markerData.label);
           for (let index = 0; index < data.length; index++) {
               const element = data[index];
-              if (markerdata.label==data[index].Camera_Name) {
+              if (markerData.label==data[index].Camera_Name) {
                   console.log(data[index].Src);
               document.getElementById('PlayVideo').src=data[index].Src;
               }
               
           }
           infoWindow = new google.maps.InfoWindow({
-            position: markerdata.position,
+            position: markerData.position,
           });
           infoWindow.setContent(
-            JSON.stringify(markerdata.label, null, 2)
+            JSON.stringify(markerData.label, null, 2)
           );
           infoWindow.open(map);
         });
